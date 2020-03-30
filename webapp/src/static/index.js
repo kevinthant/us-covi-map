@@ -2,17 +2,12 @@ Highcharts.getJSON(
   '/county/map.json',
   function (data) {
 
-      /**
-       * Data parsed from http://www.bls.gov/lau/#tables
-       *
-       * 1. Go to http://www.bls.gov/lau/laucntycur14.txt (or similar, updated
-       *    datasets)
-       * 2. In the Chrome Developer tools console, run this code:
-       *    copy(JSON.stringify(document.body.innerHTML.split('\n').filter(function (s) { return s.indexOf('<PUT DATE HERE IN FORMAT e.g. Feb-14>') !== -1; }).map(function (row) { row = row.split('|'); return { code: 'us-' + row[3].trim().slice(-2).toLowerCase() + '-' + row[2].trim(), name: row[3].trim(), value: parseFloat(row[8]) }; })))
-       * 3. The data is now on your clipboard, paste it below
-       * 4. Verify that the length of the data is reasonable, about 3300
-       *    counties.
-       */
+      var dataByFips = {};
+      Highcharts.each(data, function(item){
+        dataByFips[item.fips + ''] = item;
+      });
+
+      
 
       var countiesMap = Highcharts.geojson(
               Highcharts.maps['countries/us/us-all-all']
@@ -32,8 +27,16 @@ Highcharts.getJSON(
 
       // Add state acronym for tooltip
       Highcharts.each(countiesMap, function (mapPoint) {
-          mapPoint.name = mapPoint.name + ', ' +
-              mapPoint.properties['hc-key'].substr(3, 2);
+        /* mapPoint.name = mapPoint.name + ', ' +
+              mapPoint.properties['hc-key'].substr(3, 2);*/
+            var state = mapPoint.properties['hc-key'].substr(3, 2).toUpperCase();
+            if(dataByFips[mapPoint.properties['fips']]) {
+              mapPoint.name = dataByFips[mapPoint.properties['fips']].county + ', ' + state;
+              mapPoint.deaths = dataByFips[mapPoint.properties['fips']].deaths;
+            } else {
+              mapPoint.name = mapPoint.name + ', ' + state;
+            }
+            
       });
 
       document.getElementById('container').innerHTML = 'Rendering map...';
@@ -43,7 +46,7 @@ Highcharts.getJSON(
           Highcharts.mapChart('container', {
               chart: {
                   borderWidth: 1,
-                  marginRight: 20 // for the legend
+                  marginRight: 60 // for the legend
               },
 
               title: {
@@ -61,6 +64,18 @@ Highcharts.getJSON(
                   ) || 'rgba(255, 255, 255, 0.85)'
               },
 
+              tooltip: {
+                formatter: function () {
+                  var msg = this.point.name + '<br>' +
+                  'Cases: ' + this.point.value;
+
+                  if(this.point.deaths) {
+                    msg += '<br/>Deaths: ' + this.point.deaths;
+                  }
+
+                  return msg;
+                }
+              },
               mapNavigation: {
                   enabled: true
               },
@@ -71,7 +86,7 @@ Highcharts.getJSON(
                   tickInterval: 10,
                   stops: [[0, '#F1EEF6'], [0.65, '#900037'], [1, '#500007']],
                   labels: {
-                      format: '{value}+ cases'
+                      format: '{value}+'
                   }
               },
 
