@@ -1,0 +1,8 @@
+.vagrant
+vendor
+.DS_Store
+.idea
+!data/.gitignore
+public/flowchart
+node_modules
+db.json

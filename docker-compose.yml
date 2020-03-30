@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    container_name: us-covimap-db
+    restart: always
+    ports:
+      - "4401:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "!root!"
+      MYSQL_DATABASE: covimap
+      MYSQL_USER: usr_covimap
+      MYSQL_PASSWORD: "pwd_covimap"
+
+  webapp:
+    container_name: us-covimap-webapp
+    ports:
+      - "7071:9000"
+    environment:
+      DEBUG: 1
+
+    volumes:
+      - ./webapp:/app
+    command: "npm run start:watch"
+    build:
+      context: ./webapp
+
