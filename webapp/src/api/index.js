@@ -5,7 +5,7 @@ const getCountyMapData = (req, res) => {
 
   pool.promise()
     .query(`SELECT * from (select county, state, max(fips) as fips,
-     MAX(cases) as cases, MAX(deaths) as deaths, MAX(\`date\`) 
+     MAX(cases) as \`value\`, MAX(deaths) as deaths, MAX(\`date\`) 
      as date from county_cases WHERE county <> 'Unknown' GROUP BY county, state) as a 
      ORDER BY state, county;`)
     .then( ([rows,fields]) => {
@@ -17,12 +17,12 @@ const getCountyMapData = (req, res) => {
       const data = [];
       rows.forEach((row, i) => {
         if(row.county == 'New York City' && row.fips == '') {
-          const { cases, deaths, date } = row;
+          const { value, deaths, date } = row;
           data.push({
             county: 'New York (combined as whole New York City)',
             state: 'New York',
             fips: '36061',
-            cases,
+            value,
             deaths,
             date
           });
@@ -31,7 +31,7 @@ const getCountyMapData = (req, res) => {
             county: 'Kings (combined as whole New York City)',
             state: 'New York',
             fips: '36047',
-            cases,
+            value,
             deaths,
             date
           });
@@ -40,7 +40,7 @@ const getCountyMapData = (req, res) => {
             county: 'Queens (combined as whole New York City)',
             state: 'New York',
             fips: '36081',
-            cases,
+            value,
             deaths,
             date
           });
@@ -49,7 +49,7 @@ const getCountyMapData = (req, res) => {
             county: 'Richmond (combined as whole New York City)',
             state: 'New York',
             fips: '36085',
-            cases,
+            value,
             deaths,
             date
           });
@@ -58,18 +58,18 @@ const getCountyMapData = (req, res) => {
             county: 'Bronx (combined as whole New York City)',
             state: 'New York',
             fips: '36005',
-            cases,
+            value,
             deaths,
             date
           });
         } 
         else if(row.county == 'Kansas City' && row.fips == '') {
-          const { cases, deaths, date, state } = row;
+          const { value, deaths, date, state } = row;
           data.push({
             county: 'Jackson (combined as whole Kansas City)',
             state,
             fips: '29095',
-            cases,
+            value,
             deaths,
             date
           });
@@ -78,7 +78,7 @@ const getCountyMapData = (req, res) => {
             county: 'Clay (combined as whole Kansas City)',
             state,
             fips: '29047',
-            cases,
+            value,
             deaths,
             date
           });
@@ -87,7 +87,7 @@ const getCountyMapData = (req, res) => {
             county: 'Platte (combined as whole Kansas City)',
             state,
             fips: '29165',
-            cases,
+            value,
             deaths,
             date
           });
@@ -96,7 +96,7 @@ const getCountyMapData = (req, res) => {
             county: 'Cass (combined as whole Kansas City)',
             state,
             fips: '29037',
-            cases,
+            value,
             deaths,
             date
           });
