@@ -1,8 +1,8 @@
 {
-  "name": "syncrelease-scheduler",
+  "name": "landzin-scheduler",
   "version": "1.0.0",
   "author": "Kevin Thant",
-  "description": "SyncRelease Scheduler for scheduling tasks to be used with SyncRelease",
+  "description": "Scheduler app for running background tasks at scheduled time or periodically like Cron",
   "main": "src/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
