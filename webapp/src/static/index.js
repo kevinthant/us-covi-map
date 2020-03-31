@@ -45,12 +45,12 @@ Highcharts.getJSON(
       setTimeout(function () { // Otherwise innerHTML doesn't update
           Highcharts.mapChart('container', {
               chart: {
-                  borderWidth: 1,
+                  borderWidth: 0,
                   marginRight: 60 // for the legend
               },
-
+                
               title: {
-                  text: 'COVID-19 cases by counties in US'
+                  text: null //'COVID-19 cases by counties in US'
               },
 
               legend: {

@@ -27,7 +27,10 @@ const envOptions = {
       allChunks: true
     }),
     new CopyWebpackPlugin([
-      {from:'images', to:'static/images'} 
+      {from:'static/images', to:'static/images'} 
+    ]),
+    new CopyWebpackPlugin([
+      {from:'static/css', to:'static/css'} 
     ]),
   ],
   outputDir: path.resolve('dist'),
