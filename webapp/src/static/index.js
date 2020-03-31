@@ -27,16 +27,16 @@ Highcharts.getJSON(
 
       // Add state acronym for tooltip
       Highcharts.each(countiesMap, function (mapPoint) {
-        /* mapPoint.name = mapPoint.name + ', ' +
-              mapPoint.properties['hc-key'].substr(3, 2);*/
             var state = mapPoint.properties['hc-key'].substr(3, 2).toUpperCase();
-            if(dataByFips[mapPoint.properties['fips']]) {
-              mapPoint.name = dataByFips[mapPoint.properties['fips']].county + ', ' + state;
-              mapPoint.deaths = dataByFips[mapPoint.properties['fips']].deaths;
+            var dataPoint = dataByFips[mapPoint.properties['fips']];
+            if(dataPoint) {
+              var date = new Date(dataPoint.date.split('T')[0]);
+              mapPoint.name = dataPoint.county + ', ' + state;
+              mapPoint.deaths = dataPoint.deaths;
+              mapPoint.date = date.toLocaleDateString();
             } else {
               mapPoint.name = mapPoint.name + ', ' + state;
             }
-            
       });
 
       document.getElementById('container').innerHTML = 'Rendering map...';
@@ -71,6 +71,10 @@ Highcharts.getJSON(
 
                   if(this.point.deaths) {
                     msg += '<br/>Deaths: ' + this.point.deaths;
+                  }
+
+                  if(this.point.date) {
+                    msg += '<br/>As of: ' + this.point.date;
                   }
 
                   return msg;
