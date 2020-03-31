@@ -198,6 +198,7 @@ ko.bindingHandlers.number = {
 function initSummaryTable() {
 
   function StateTable(data, error) {
+    var self = this;
     this.error = false;
     
     var totalCases = 0;
@@ -213,10 +214,36 @@ function initSummaryTable() {
     this.rows = ko.observableArray(rows); 
     this.totalCases = totalCases;
     this.totalDeaths = totalDeaths;
+    this.sortedColumn = ko.observable('cases');
+    this.sortedOrder = ko.observable('desc');
 
     if(error) {
       this.error = 'No data available, due to error: ' + error;
     }
+
+    this.sort = function(v, e) {
+      var col = e.currentTarget.getAttribute('data-id');
+      var order = col == self.sortedColumn() ? (self.sortedOrder() == 'asc' ? 'desc' : 'asc') : 'asc';
+
+      rows.sort(function(a, b){
+        if(a[col] < b[col]) {
+          return -1;
+        }
+
+        if(a[col] > b[col]) {
+          return 1;
+        }
+        return 0;
+      });
+
+      if(order == 'desc') {
+        rows.reverse();
+      }
+
+      self.rows(rows);
+      self.sortedColumn(col);
+      self.sortedOrder(order);
+    };
   }
 
   Highcharts.getJSON(
