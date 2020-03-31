@@ -1,0 +1,43 @@
+{
+  "name": "syncrelease-scheduler",
+  "version": "1.0.0",
+  "author": "Kevin Thant",
+  "description": "SyncRelease Scheduler for scheduling tasks to be used with SyncRelease",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "start": "node dist/index.js",
+    "start:watch": "NODE_DEBUG=true BABEL_ENV=server nodemon --ignore 'db.json' src/index.js  --exec babel-node",
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "config": "^3.2.5",
+    "cron-parser": "^2.13.0",
+    "csvtojson": "^2.0.10",
+    "express": "^4.17.1",
+    "i": "^0.3.6",
+    "lowdb": "^1.0.0",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "swagger-docs": "^0.0.0-alpha2",
+    "swagger-express-router": "^1.0.0",
+    "swagger-inputs-validator": "^1.0.8",
+    "swagger-ui-express": "^4.1.3",
+    "util": "^0.12.1",
+    "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+    "@babel/plugin-transform-react-jsx": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "babel-plugin-css-modules-transform": "^1.6.2"
+  }
+}

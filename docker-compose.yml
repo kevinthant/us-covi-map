@@ -12,6 +12,20 @@ services:
       MYSQL_USER: usr_covimap
       MYSQL_PASSWORD: "pwd_covimap"
 
+  scheduler:
+    container_name: covimap-scheduler
+    ports:
+      - "7072:9000"
+    environment:
+      SWAGGER_PORT: 7072
+      DEBUG: 1
+
+    volumes:
+      - ./scheduler/app:/app
+
+    build:
+      context: ./scheduler
+
   webapp:
     container_name: us-covimap-webapp
     ports:

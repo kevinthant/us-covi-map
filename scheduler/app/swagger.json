@@ -1,0 +1,249 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SyncRelease Scheduler",
+    "description": "Scheuling tasks for SyncRelease",
+    "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "host": "localhost:80",
+  "basePath": "/api",
+  "paths": {
+    "/schedule": {
+      "post": {
+        "x-swagger-router-controller": "index",
+        "operationId": "addSchedule",
+        "tags": ["schedule"],
+        "description": "Add a new schedule to run a task",
+        "parameters": [{
+          "name": "schedule",
+          "in": "body",
+          "description": "Input body of a new task to be scheduled",
+          "schema": {
+            "$ref": "#/definitions/AddScheduleInput"
+          }
+        }],
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "Success",
+              "$ref": "#/definitions/AddScheduleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/schedule/{id}": {
+      "delete": {
+        "x-swagger-router-controller": "index",
+        "operationId": "removeSchedule",
+        "tags": ["schedule"],
+        "description": "Remove an existing schedule",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the existing job to be removed",
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "Success",
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "get": {
+        "x-swagger-router-controller": "index",
+        "operationId": "getSchedule",
+        "tags": ["schedule"],
+        "description": "Get an existing scheduled task information",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the existing job to be fetched",
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "Success",
+              "$ref": "#/definitions/ScheduleItem"
+            }
+          }
+        }
+      }
+    },
+    "/list": {
+      "get": {
+        "x-swagger-router-controller": "index",
+        "operationId": "listSchedule",
+        "tags": ["schedule"],
+        "description": "Get the list of schedules in the system",
+        "parameters": [{
+          "name": "active",
+          "in": "query",
+          "description": "Status type of the scheduled task to be filtered",
+          "type": "boolean",
+          "required": false
+        },{
+          "name": "recurring",
+          "in": "query",
+          "description": "Only for recurring tasks or not",
+          "type": "boolean",
+          "required": false
+        },{
+          "name": "job",
+          "in": "query",
+          "description": "Job types to be filtered, one or more separated by comma",
+          "type": "string",
+          "required": false
+        },{
+          "name": "lastRunStatus",
+          "in": "query",
+          "description": "To filter by last run status of the job: either successful or fail",
+          "type": "string",
+          "enum": ["success", "fail", "any"],
+          "default": "any"
+        }],
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "Success",
+              "$ref": "#/definitions/ScheduleListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/jobs": {
+      "get": {
+        "x-swagger-router-controller": "index",
+        "operationId": "listJobs",
+        "tags": ["schedule"],
+        "description": "Get the list of available job types",
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "Success",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AddScheduleInput": {
+      "type": "object",
+      "required": ["job"],
+      "properties": {
+        "job": {
+          "type": "string",
+          "description": "Job Function Type name in string, it must be one of the job function types supported"
+        },
+        "after": {
+          "type": "string",
+          "description": "ISO datetime string to indicate a date time when the task should be run. NOTE: either this \"after\" or \"cron\" property must be defined"
+        },
+        "cron": {
+          "$ref": "#/definitions/CronInfo"
+        },
+        "data": {
+          "type": "object",
+          "description": "Any obitary data object to be passed to the Job function specified",
+          "properties": {
+            
+          }
+        }
+      }
+    },
+    "ScheduleListResponse": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ScheduleItem"
+      }
+    },
+    "ScheduleItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "GUIID string value as ID of the task"
+        },
+        "job": {
+          "type": "string",
+          "description": "Name of the job to be run"
+        },
+        "active": {
+          "description": "Status type of the scheduled task to be filtered",
+          "type": "boolean"
+        },
+        "recurring": {
+          "description": "Only for recurring tasks or not",
+          "type": "boolean"
+        },
+        "lastRunStatus": {
+          "description": "To filter by last run status of the job: either successful or fail",
+          "type": "string",
+          "enum": ["success", "fail"]
+        },
+        "lastRunDateTime": {
+          "type": "string",
+          "description": "Last run date time of the task"
+        },
+        "scheduledDateTime": {
+          "type": "string",
+          "description": "Scheduled date time in ISO format to be run for the task. If it is recurring, it will be for next scheduled date"
+        },
+        "cron": {
+          "description": "if it is a recurring task, it will contain from cron infomration configured",
+          "$ref": "#/definitions/CronInfo"
+        },
+        "output": {
+          "type": "object",
+          "description": "Output from the task if exists",
+          "properties": {}
+        },
+        "error": {
+          "type": "string",
+          "description": "Any error output from running the task last time"
+        }
+      }
+    },
+    "AddScheduleResponse": {
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "CronInfo": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Cron schedule value in the UNIX cron format such as */2 * * * *"
+        },
+        "endDateTime": {
+          "type": "string",
+          "description": "End date time in ISO string format to indicate when this Cron recurring job should end"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "required": ["message"],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

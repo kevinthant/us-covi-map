@@ -1,0 +1,11 @@
+{
+  "port": "9000",
+  "retentionPeriod": "1y",
+  "cleanUpInterval": "3600000",
+  "db": {
+    "host": "db",
+    "username": "usr_covimap",
+    "password": "pwd_covimap",
+    "database": "covimap"
+  }
+}
