@@ -91,3 +91,6 @@ body {
 
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.case-col { padding-right:10px; }
+.death-col { padding-right:20px; }

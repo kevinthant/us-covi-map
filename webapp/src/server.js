@@ -1,4 +1,4 @@
-import { getCountyMapData } from './api';
+import { getCountyMapData, getStateData } from './api';
 const express = require('express');
 var config = require('config');
 const path = require('path');
@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/county/map.json', getCountyMapData);
+app.get('/state/data.json', getStateData);
 
 app.use(bodyParser.json());
 app.listen(port, () => {

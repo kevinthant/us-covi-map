@@ -106,15 +106,33 @@ const getCountyMapData = (req, res) => {
         }
       });
 
-      return res.json(data);
+      return res.json({ data });
+    })
+    .catch((error) => res.json({ error }));
+};
+
+
+const getStateData = (req, res) => {
+  pool.promise()
+    .query(`select state, 
+    MAX(cases) as cases, 
+    MAX(deaths) as deaths,
+    MAX(\`date\`) as \`asof\` 
+    from state_cases 
+    GROUP BY state 
+    ORDER BY cases DESC;`)
+    .then(([rows,fields]) => { 
+      res.json({ data: rows });
     })
     .catch((error) => res.json({ error }));
 };
 
 export {
-  getCountyMapData
+  getCountyMapData,
+  getStateData,
 };
 
 export default {
-  getCountyMapData
+  getCountyMapData,
+  getStateData,
 }
