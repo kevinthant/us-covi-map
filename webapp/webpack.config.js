@@ -15,6 +15,13 @@ const HtmlWebpackPluginConfigs = [new HtmlWebpackPlugin({
   inject: 'body',
   chunks: ['index']
 }),
+new HtmlWebpackPlugin({
+  template: './static/historical.html',
+  filename: './historical.html',
+  title: 'COVID-19 Cases Map',
+  inject: 'body',
+  chunks: ['historical']
+})
 ];
 
 const SRC_DIR = path.join(__dirname, "src");
@@ -55,6 +62,7 @@ module.exports = {
   context: SRC_DIR,
   entry: {
     index: './static/index.js',
+    historical: './static/historical.js'
   },
   output: {
     path: envOptions.outputDir,

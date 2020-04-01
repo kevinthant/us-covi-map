@@ -127,12 +127,58 @@ const getStateData = (req, res) => {
     .catch((error) => res.json({ error }));
 };
 
+const getHistoricalData = (req, res) => {
+  const { state = null, county = null } = req.query;
+  if(!state  && !county) {
+    return pool.promise()
+      .query(`select SUM(cases) as cases, SUM(deaths) as deaths, date 
+      from state_cases 
+      GROUP BY date ORDER BY date;`)
+      .then(([rows, fields]) => {
+        return pool.promise()
+          .query(`select state as \`option\` from state_cases GROUP BY state;`)
+          .then(([options, f]) => {
+            res.json({ rows, options });
+          });
+      })
+      .catch((error) => res.json({ error }));
+  } 
+  
+  if(state && !county) {
+    return pool.promise()
+      .query(`select SUM(cases) as cases, SUM(deaths) as deaths, date
+       from state_cases  
+       WHERE state = ? 
+       GROUP BY date ORDER BY date;`, [state])
+      .then(([rows, fields]) => {
+        return pool.promise()
+          .query(`select county as \`option\` from county_cases WHERE state = ? GROUP BY county;`, [state])
+          .then(([options, f]) => {
+            res.json({ rows, options });
+          });
+      })
+      .catch((error) => res.json({ error }));
+  }
+
+  return pool.promise()
+    .query(`select SUM(cases) as cases, SUM(deaths) as deaths, date 
+    from county_cases 
+    WHERE state = ? AND county = ? 
+    GROUP BY date ORDER BY date;`, [state, county])
+    .then(([rows, fields]) => {
+      return res.json({ rows, options: null });
+    })
+    .catch((error) => res.json({ error }));
+};
+
 export {
   getCountyMapData,
   getStateData,
+  getHistoricalData,
 };
 
 export default {
   getCountyMapData,
   getStateData,
+  getHistoricalData,
 }

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>COVID-19 Cases USA Map</title>
+  <meta name="description" content="Visual Data and Map for tracking COVID-19 cases in US">
+  <meta name="author" content="Kevin Thant">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!-- Custom styles for this template -->
+  <link href="/static/css/site.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">CoviMaps</a>
+    <!--
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    -->
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <!-- <a class="nav-link" href="#">Report Problem</a> -->
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="fa fa-map" aria-hidden="true"></i>
+                US Map
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/historical">
+                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                Historial Chart
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main id="app" role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+        <h5>Historical Chart for COVID-19 Cases in US</h5>
+        <div class="card">
+          <div class="card-body">
+            <form id="frmDrillDown" class="form-inline" onsubmit="return false;">
+              <div class="form-group mb-2 mr-2">
+                <label for="ddlState" class="sr-only">Drill Down</label>
+                <select class="form-control-sm" data-bind="options: stateOptions,
+                       optionsText: 'option',
+                       optionsValue: 'option',
+                       value: state,
+                       optionsCaption: 'Choose State', event: { change: onStateChange }"></select>
+              </div>
+              <div data-bind="if: hasCountyOptions" class="form-group mb-2 mr-2">
+                <label for="ddlCounty" class="sr-only">Drill Down</label>
+                <select class="form-control-sm" data-bind="options: countyOptions,
+                       optionsText: 'option',
+                       optionsValue: 'option',
+                       value: county,
+                       optionsCaption: 'Choose County'"></select>
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary mb-2" data-bind="click: onFormClick">Drill Down</button>
+            </form>
+          </div>
+        </div>
+        
+        
+        <div data-bind="highstock: options" style="height: 520px; width: 100%; margin: 0 auto; text-align:center; line-height: 520px">
+        </div>
+        <p>
+          <strong>Credits</strong>: We use data for New York Times for rendering this chart. The front-end chart library is powered by Highcharts. Kudos to both of them.
+          <br/>
+          <i><small>Disclaimer: Rendering of this chart is not perfect and might have missed some places or counties, due to the nature of the data received.</small></i>
+        </p>
+        <br/>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-43945755-5', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+</html>

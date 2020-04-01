@@ -1,13 +1,9 @@
-var onReady = new Promise(function(resolve){
-  if (
-      document.readyState === "complete" ||
-      (document.readyState !== "loading" && !document.documentElement.doScroll)
-  ) {
-    resolve();
-  } else {
-    document.addEventListener("DOMContentLoaded", resolve);
-  }
-});
+
+import { onReady } from './on-ready';
+
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+}
 
 function initHighChart() {
   Highcharts.getJSON(
@@ -184,7 +180,7 @@ ko.bindingHandlers.number = {
 
 		result = (after) ? result += symbol : symbol + result;
 
-	    ko.bindingHandlers.text.update(element, function() { return result; });
+	  ko.bindingHandlers.text.update(element, function() { return result; });
 	},
 	defaults: {
 		separator: ',',

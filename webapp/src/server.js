@@ -1,4 +1,4 @@
-import { getCountyMapData, getStateData } from './api';
+import { getCountyMapData, getStateData, getHistoricalData } from './api';
 const express = require('express');
 var config = require('config');
 const path = require('path');
@@ -23,8 +23,14 @@ app.get('/', (req, res) => {
   return res.sendFile(DIST_DIR + '/index.html');
 });
 
+app.get('/historical', (req, res) => {
+  return res.sendFile(DIST_DIR + '/historical.html');
+});
+
 app.get('/county/map.json', getCountyMapData);
 app.get('/state/data.json', getStateData);
+app.get('/historical/data.json', getHistoricalData);
+
 
 app.use(bodyParser.json());
 app.listen(port, () => {
