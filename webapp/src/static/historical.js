@@ -81,6 +81,16 @@ class HistoricalChartModel {
       }
     };
 
+    this.onFormClear = function(v, e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      self.state(undefined);
+      self.county(false);
+      self.countyOptions([]);
+      self.populateData();
+    };
+
     this.onStateChange = function(v, e) {
       self.county(null);
       self.countyOptions([]);
@@ -89,13 +99,12 @@ class HistoricalChartModel {
     this.populateData = function() {
       getChartData({ state: self.state(), county: self.county() })
         .then(({ options, ddlOptions }) => {
-          if(self.state() !== '' && ddlOptions) {
+          if(self.state() != undefined && ddlOptions) {
             self.countyOptions(ddlOptions);
           }
           self.options(options);
         })
         .catch((err) => {
-          console.log(err);
           alert('Fail to load data for rendering the chart. Please try again!');
         });
     }
