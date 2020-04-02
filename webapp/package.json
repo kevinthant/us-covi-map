@@ -5,8 +5,8 @@
   "description": "Web app for US COVID maps and data website",
   "main": "src/index.js",
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "start": "node dist/server.js",
+    "build": "babel src --out-dir dist-server",
+    "start": "node dist-server/server.js",
     "start:watch": "NODE_DEBUG=true BABEL_ENV=server nodemon --ignore 'db.json' src/server.js  --exec babel-node",
     "test": "test",
     "webpack:build": "rm -rf dist && webpack",

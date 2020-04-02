@@ -52,8 +52,11 @@ if (process.env.NODE_ENV === 'production') {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
       }),
-      new webpack.optimize.UglifyJsPlugin()
+      //new webpack.optimize.UglifyJsPlugin()
     ],
+    optimization: {
+      minimize: true
+    },
     outputDir: path.resolve('dist'),
   });
 }
