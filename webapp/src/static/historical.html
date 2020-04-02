@@ -70,9 +70,17 @@
                        value: county,
                        optionsCaption: 'Choose County'"></select>
               </div>
-              <button type="submit" class="btn btn-sm btn-primary mb-2" data-bind="click: onFormClick">Drill Down</button>
+              <button type="submit" class="btn btn-sm btn-success mb-2" data-bind="enable: state, click: onAdd">Add</button>
+              <button type="submit" class="btn btn-sm btn-primary mb-2 ml-2" data-bind="hidden: hasCountyOptions, click: onDrillDown">Drill Down</button>
               <button type="reset" class="btn btn-sm btn-dark mb-2 ml-2" data-bind="click: onFormClear">Reset</button>
             </form>
+            <hr data-bind="visible: selectedTickers().length > 0"/>
+            <div data-bind="foreach: selectedTickers">
+              <label class="badge badge-pill badge-success mr-2">
+                <span data-bind="text: key" class="mr-1"></span>
+                <i class="lbl-ticker fa fa-times" data-bind="click: $root.onRemoveTicker, attr: { 'data-key': key}" ></i>
+              </label>
+            </div>
           </div>
         </div>
         
@@ -84,7 +92,7 @@
           <br/>
           <i><small>Disclaimer: Rendering of this chart is not perfect and might have missed some places or counties, due to the nature of the data received.</small></i>
         </p>
-        <br/>
+        <br/><br/>
       </main>
     </div>
   </div>

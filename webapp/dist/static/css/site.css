@@ -92,4 +92,4 @@ body {
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
-th.sortable span { cursor: pointer }
+th.sortable span, .lbl-ticker { cursor: pointer }

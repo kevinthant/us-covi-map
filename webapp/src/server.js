@@ -1,4 +1,4 @@
-import { getCountyMapData, getStateData, getHistoricalData } from './api';
+import { getCountyMapData, getStateData, getHistoricalData, getDrillDownOptions } from './api';
 const express = require('express');
 var config = require('config');
 const path = require('path');
@@ -30,6 +30,7 @@ app.get('/historical', (req, res) => {
 app.get('/county/map.json', getCountyMapData);
 app.get('/state/data.json', getStateData);
 app.get('/historical/data.json', getHistoricalData);
+app.get('/historical/drill-down-options.json', getDrillDownOptions);
 
 
 app.use(bodyParser.json());
