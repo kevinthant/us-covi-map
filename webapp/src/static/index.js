@@ -199,12 +199,18 @@ function initSummaryTable() {
     
     var totalCases = 0;
     var totalDeaths = 0;
-    var rows = (data || []).map(function(row){
+    const rows = (data || []).map(function(row){
       row.asof = new Date(row.asof.split('T')[0]).toLocaleDateString();
       totalCases += parseInt(row.cases);
       totalDeaths += parseInt(row.deaths);
 
       return row;
+    });
+
+    rows.forEach((row) => {
+      row.casesPct = parseFloat(parseInt(row.cases)/(totalCases * 1.0)) * 100;
+      row.deathsPct = parseFloat(parseInt(row.deaths)/(totalDeaths * 1.0)) * 100;
+      row.cfr = parseFloat(parseInt(row.deaths)/(parseInt(row.cases) * 1.0)) * 100;
     });
 
     this.rows = ko.observableArray(rows); 

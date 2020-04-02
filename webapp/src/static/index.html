@@ -78,8 +78,23 @@
                   </span>
                 </th>
                 <th class="text-right sortable">
+                  <span title="Click here to sort by Case % of the country" data-bind="click: sort" data-id="casesPct">Case % of U.S
+                    <i class="fa" data-bind="css : {'fa-arrow-down': sortedColumn() == 'casesPct' && sortedOrder() == 'desc', 'fa-arrow-up': sortedColumn() == 'casesPct' && sortedOrder() == 'asc' }"></i>
+                  </span>
+                </th>
+                <th class="text-right sortable">
                   <span title="Click here to sort by Deaths" data-bind="click: sort" data-id="deaths">Deaths
                     <i class="fa" data-bind="css : {'fa-arrow-down': sortedColumn() == 'deaths' && sortedOrder() == 'desc', 'fa-arrow-up': sortedColumn() == 'deaths' && sortedOrder() == 'asc' }"></i>
+                  </span>
+                </th>
+                <th class="text-right sortable">
+                  <span title="Click here to sort by Death % of the country" data-bind="click: sort" data-id="deathsPct">Death % of U.S
+                    <i class="fa" data-bind="css : {'fa-arrow-down': sortedColumn() == 'deathsPct' && sortedOrder() == 'desc', 'fa-arrow-up': sortedColumn() == 'deathsPct' && sortedOrder() == 'asc' }"></i>
+                  </span>
+                </th>
+                <th class="text-right sortable">
+                  <span title="Click here to sort by Case Fatality Rate %" data-bind="click: sort" data-id="cfr">CFR %
+                    <i class="fa" data-bind="css : {'fa-arrow-down': sortedColumn() == 'cfr' && sortedOrder() == 'desc', 'fa-arrow-up': sortedColumn() == 'cfr' && sortedOrder() == 'asc' }"></i>
                   </span>
                 </th>
                 <th class="text-center">As of Date</th>
@@ -90,13 +105,16 @@
               <tr>
                 <td data-bind="text: state"></td>
                 <td data-bind="number: cases" class="text-right"></td>
+                <td data-bind="number: casesPct, precision: 2, after: true, symbol: '%'" class="text-right"></td>
                 <td data-bind="number: deaths" class="text-right"></td>
+                <td data-bind="number: deathsPct, precision: 2, after: true, symbol: '%'" class="text-right"></td>
+                <td data-bind="number: cfr, precision: 2, after: true, symbol: '%'" class="text-right"></td>
                 <td data-bind="text: asof" class="text-center"></td>
               </tr>
             </tbody>
             <tbody data-bind="if: error">
               <tr>
-                <td colspan="4" data-bind="text: error"></td>
+                <td colspan="7" data-bind="text: error"></td>
               </tr>
             </tbody>
           
@@ -104,7 +122,9 @@
               <tr>
                 <td>Total</td>
                 <td class="text-right" data-bind="number: totalCases"></td>
+                <td></td>
                 <td class="text-right" data-bind="number: totalDeaths"></td>
+                <td></td>
                 <td></td>
               </tr>
             </tfoot>
