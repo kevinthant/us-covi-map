@@ -18,12 +18,13 @@ services:
       - "7072:9000"
     environment:
       SWAGGER_PORT: 7072
-      DEBUG: 1
+      DEBUG: 0
+      NODE_ENV: prdouction
 
     volumes:
       - ./scheduler/app:/app
-
-    command: "npm run start:watch"
+    
+    command: "npm run start"
     build:
       context: ./scheduler
 
@@ -32,11 +33,21 @@ services:
     ports:
       - "7071:9000"
     environment:
-      DEBUG: 1
+      DEBUG:0
+      NODE_ENV: prdouction
+      VIRTUAL_HOST: www.covimap.com
+      LETSENCRYPT_HOST: www.covimap.com,covimap.com
+      LETSENCRYPT_EMAIL: kevinthant@landzin.com
+      VIRTUAL_PORT: 7071
 
     volumes:
       - ./webapp:/app
-    command: "npm run start:watch"
+    command: "npm run start"
     build:
       context: ./webapp
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
 
