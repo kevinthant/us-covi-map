@@ -2,6 +2,7 @@
 import pool from './../db/pool';
 import CountyMapModel from './../db/model/county-map';
 import StateDataModel from './../db/model/state-data';
+import HistoricalDataModel from './../db/model/historical-data';
 
 const getCountyMapData = (req, res) => {
   return CountyMapModel.get(req.query)
@@ -16,38 +17,9 @@ const getStateData = (req, res) => {
 };
 
 const getHistoricalData = (req, res) => {
-  const { state = null, county = null } = req.query;
-  if(!state  && !county) {
-    return pool.promise()
-      .query(`select SUM(cases) as cases, SUM(deaths) as deaths, date 
-      from state_cases 
-      GROUP BY date ORDER BY date;`)
-      .then(([rows, fields]) => {
-        return res.json({ rows });
-      })
-      .catch((error) => res.json({ error }));
-  } 
   
-  if(state && !county) {
-    return pool.promise()
-      .query(`select SUM(cases) as cases, SUM(deaths) as deaths, date
-       from state_cases  
-       WHERE state = ? 
-       GROUP BY date ORDER BY date;`, [state])
-      .then(([rows, fields]) => {
-        return res.json({ rows });
-      })
-      .catch((error) => res.json({ error }));
-  }
-
-  return pool.promise()
-    .query(`select SUM(cases) as cases, SUM(deaths) as deaths, date 
-    from county_cases 
-    WHERE state = ? AND county = ? 
-    GROUP BY date ORDER BY date;`, [state, county])
-    .then(([rows, fields]) => {
-      return res.json({ rows, options: null });
-    })
+  return HistoricalDataModel.get(req.query)
+    .then((data) => res.json({ rows: data }))
     .catch((error) => res.json({ error }));
 };
 
