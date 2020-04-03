@@ -18,7 +18,7 @@ services:
       - "7072:9000"
     environment:
       SWAGGER_PORT: 7072
-      DEBUG: 0
+      DEBUG: 1
       NODE_ENV: prdouction
 
     volumes:
@@ -33,9 +33,9 @@ services:
     ports:
       - "7071:9000"
     environment:
-      DEBUG:0
-      NODE_ENV: prdouction
-      VIRTUAL_HOST: www.covimap.com
+      DEBUG: 0
+      NODE_ENV: production
+      VIRTUAL_HOST: www.covimap.com,covimap.com
       LETSENCRYPT_HOST: www.covimap.com,covimap.com
       LETSENCRYPT_EMAIL: kevinthant@landzin.com
       VIRTUAL_PORT: 7071
@@ -50,4 +50,3 @@ networks:
   default:
     external:
       name: nginx-proxy
-
