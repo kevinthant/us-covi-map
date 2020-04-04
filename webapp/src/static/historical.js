@@ -1,5 +1,5 @@
 
-import { onReady } from './on-ready';
+import { onReady, getLocalDate } from './utils';
 
 window.onbeforeunload = function () {
   window.scrollTo(0, 0);
@@ -44,7 +44,7 @@ const getChartData = (tickers) => {
         }
   
         const data = rows.map((item) => {
-          const date = new Date(item.date.split('T')[0]);
+          const date = getLocalDate(item.date);
           return [date.getTime(), parseInt(item.cases)];
         });
 

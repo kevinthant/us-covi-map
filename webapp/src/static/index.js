@@ -1,5 +1,5 @@
 
-import { onReady } from './on-ready';
+import { onReady, getLocalDateString } from './utils';
 
 window.onbeforeunload = function () {
   window.scrollTo(0, 0);
@@ -43,10 +43,9 @@ function initHighChart() {
               var state = mapPoint.properties['hc-key'].substr(3, 2).toUpperCase();
               var dataPoint = dataByFips[mapPoint.properties['fips']];
               if(dataPoint) {
-                var date = new Date(dataPoint.date.split('T')[0]);
                 mapPoint.name = dataPoint.county + ', ' + state;
                 mapPoint.deaths = dataPoint.deaths;
-                mapPoint.date = date.toLocaleDateString();
+                mapPoint.date = getLocalDateString(dataPoint.date);
               } else {
                 mapPoint.name = mapPoint.name + ', ' + state;
               }
@@ -200,7 +199,7 @@ function initSummaryTable() {
     var totalCases = 0;
     var totalDeaths = 0;
     const rows = (data || []).map(function(row){
-      row.asof = new Date(row.asof.split('T')[0]).toLocaleDateString();
+      row.asof = getLocalDateString(row.asof);
       totalCases += parseInt(row.cases);
       totalDeaths += parseInt(row.deaths);
 
