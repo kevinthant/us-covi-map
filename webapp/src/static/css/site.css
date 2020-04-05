@@ -85,6 +85,27 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
+#chart-container {
+  width: 100%; 
+  margin: 0 auto; 
+  text-align:center; 
+  line-height: 520px;
+}
+
+@media (min-width: 576px) { 
+  #chart-container {
+    height: auto;
+  }
+}
+
+@media (min-width: 992px) { 
+  #chart-container {
+    height: 650px;
+  }
+}
+ 
+
+
 /*
  * Utilities
  */

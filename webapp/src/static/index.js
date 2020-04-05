@@ -51,11 +51,11 @@ function initHighChart() {
               }
         });
   
-        document.getElementById('container').innerHTML = 'Rendering map...';
+        document.getElementById('chart-container').innerHTML = 'Rendering map...';
   
         // Create the map
         setTimeout(function () { // Otherwise innerHTML doesn't update
-            Highcharts.mapChart('container', {
+            Highcharts.mapChart('chart-container', {
                 chart: {
                     borderWidth: 0,
                     marginRight: 60 // for the legend
