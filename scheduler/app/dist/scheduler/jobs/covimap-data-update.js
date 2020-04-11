@@ -29,7 +29,7 @@ const getData = url => {
 };
 
 const CovimapDataUpdate = async jobData => {
-  console.log("\nGoing to fire to CoviMapDataUpdate for sending a new job", jobData);
+  console.log(`\n[${new Date()}]Running CoviMapDataUpdate`, jobData);
   const countyDataUrl = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv';
   const stateDataUrl = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
   const stateData = await getData(stateDataUrl);
@@ -71,6 +71,7 @@ const CovimapDataUpdate = async jobData => {
       count++;
       return conn.promise().execute('INSERT INTO `county_cases` (date, county, state, fips, cases, deaths) VALUES (?, ?, ?, ?, ?, ?)', [item.date, item.county, item.state, item.fips, item.cases, item.deaths]);
     }));
+    conn.end();
     console.log(`Updated county data, total = ${count}`);
   } catch (err) {
     conn.end();
